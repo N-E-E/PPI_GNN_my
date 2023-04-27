@@ -7,8 +7,9 @@ from tqdm import tqdm
 import pathlib
 import math
 import sklearn
-import torch_optimizer as optim
+# import torch_optimizer as optim
 from torch.optim.lr_scheduler import MultiStepLR, ReduceLROnPlateau
+import metrics
 from metrics import *
 
 device = torch.device("cuda:1") if torch.cuda.is_available() else torch.cuda("cpu")
@@ -98,8 +99,8 @@ for epoch in range(num_epochs):
   G, P = predict(model, device, testloader)
   #print( f'Predictions---------------------------------------------{P}')
   #print(f'Labels----------------------------------------------------{G}')
-  loss = get_mse(G,P)
-  accuracy = get_accuracy(G,P, 0.5)
+  loss = metrics.get_mse(G,P)
+  accuracy = metrics.get_accuracy(G,P, 0.5)
   print(f'Epoch {epoch}/ {num_epochs} [==============================] - val_loss : {loss} - val_accuracy : {accuracy}')
   if(accuracy > best_accuracy):
     best_accuracy = accuracy

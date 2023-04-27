@@ -13,11 +13,8 @@ from Bio.PDB.PDBParser import PDBParser
 
 import torch
 import networkx as nx
-import torch.nn.functional as F
-from torch_geometric.nn import MessagePassing
-from torch_geometric.utils import add_self_loops, degree
 
-device = torch.device("cuda:0") if torch.cuda.is_available() else torch.cuda("cpu")
+device = torch.device("cuda:0")
 print(device)
 
 from Bio import SeqIO
@@ -55,7 +52,7 @@ pcp_dict = {'A':[ 0.62014, -0.18875, -1.2387, -0.083627, -1.3296, -1.3817, -0.44
             'W':[0.81018, -1.6484, 2.0062, -1.0872, 2.3901, 1.8299, 0.032377],
             'Y':[0.26006, -1.0947, 1.2307, -0.78981, 1.2527, 1.1906, -0.18876]}
 
-from torch_geometric.data import Dataset, Dataset, download_url, Data,  Batch
+from torch_geometric.data import Dataset, download_url, Data,  Batch
 
 
 #def check_symmetric(a, rtol=1e-05, atol=1e-08):
@@ -110,7 +107,7 @@ class ProteinDataset(Dataset):
                mat = self._get_adjacency(file)
           
            # if sequence size > matrix dimensions 
-               if(mat.shape[0] < torch.Tensor.size(node_feats)[0]) :
+               if mat.shape[0] < torch.Tensor.size(node_feats)[0]:
                  #node_feats = torch.tensor(ftrs.item()[os.path.splitext(os.path.basename(file))[0]])
                  edge_index = self._get_edgeindex(file, mat)
            
@@ -223,10 +220,10 @@ class ProteinDataset(Dataset):
 
 
     # total features after concatenating one_hot_symbftrs and res_ftrs
-    def _get_node_ftrs(self, sequence):
-        one_hot_symb = one_hot_symbftrs(sequence)
-        res_ftrs_out = res_ftrs(sequence)
-        return torch.tensor(np.hstack((one_hot_symb, res_ftrs_out)), dtype = torch.float)
+    # def _get_node_ftrs(self, sequence):
+    #     one_hot_symb = one_hot_symbftrs(sequence)
+    #     res_ftrs_out = res_ftrs(sequence)
+    #     return torch.tensor(np.hstack((one_hot_symb, res_ftrs_out)), dtype = torch.float)
           
         
 prot_graphs = ProteinDataset("../human_features/")

@@ -43,7 +43,7 @@ class GCNN(nn.Module):
         x = self.pro1_conv1(pro1_x, pro1_edge_index)
         x = self.relu(x)
         
-	# global pooling
+        # global pooling
         x = gep(x, pro1_batch)   
 
         # flatten
@@ -55,7 +55,7 @@ class GCNN(nn.Module):
         xt = self.pro2_conv1(pro2_x, pro2_edge_index)
         xt = self.relu(xt)
 
-	# global pooling
+    # global pooling
         xt = gep(xt, pro2_batch)  
 
         # flatten
@@ -63,7 +63,7 @@ class GCNN(nn.Module):
         xt = self.dropout(xt)
 
 
-	# Concatenation  
+    # Concatenation
         xc = torch.cat((x, xt), 1)
 
         # add some dense layers
@@ -122,7 +122,7 @@ class AttGNN(nn.Module):
         x = self.pro1_conv1(pro1_x, pro1_edge_index)
         x = self.relu(x)
         
-	# global pooling
+    # global pooling
         x = gep(x, pro1_batch)  
        
         # flatten
@@ -133,16 +133,16 @@ class AttGNN(nn.Module):
 
         xt = self.pro2_conv1(pro2_x, pro2_edge_index)
         xt = self.relu(self.pro2_fc1(xt))
-	
-	# global pooling
+
+    # global pooling
         xt = gep(xt, pro2_batch)  
 
         # flatten
         xt = self.relu(xt)
         xt = self.dropout(xt)
 
-	
-	# Concatenation
+
+    # Concatenation
         xc = torch.cat((x, xt), 1)
 
         # add some dense layers
